@@ -13,7 +13,11 @@ after_initialize do
       if category_ids.blank? || list_type != :latest || options[:category] || options[:tags]
         result
       else
-        result.where("topics.category_id NOT IN (#{category_ids.join(",")}) OR tu.notification_level IN (2,3)")
+begin
+          result.where("topics.category_id NOT IN (#{category_ids.join(",")}) OR tu.notification_level IN (2,3)")
+        rescue => e
+          result
+        end
       end
     end
 
